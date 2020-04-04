@@ -46,4 +46,27 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'user_id');
     }
+
+    /**
+     *
+     */
+    public function tweetsFromFollowing()
+    {
+        /**
+         * EXPLANATION:
+         * I want to access to the tweets that users I'm following THROUGH Users table
+         * 1. Tweet: The model I want to access. Table tweets
+         * 2. User: The intermediate model related to Tweets. Table followers, but really is a User
+         * 3. user_id: The foreign key that related the Followers table with the Users table. followers.user_id (me)
+         * 4. user_id. The foreign key on the final model. tweets.user_id
+         * 5. id: The local key of this model. users.id
+         * 6. following_id: The local key on the intermediate model. followers.following_id.
+         *
+         * Why 'following_id' in the sixth argument? Because I want to the tweets of
+         * users I'm following, not mine (In this case we don't need hasManyThrough relationship).
+         *
+         *
+         */
+        return $this->hasManyThrough(Tweet::class, Follower::class, 'user_id', 'user_id', 'id', 'following_id');
+    }
 }

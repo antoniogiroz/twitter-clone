@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         $this->call([
+            TweetsTableSeeder::class,
             FollowersTableSeeder::class,
             UsersTableSeeder::class,
         ]);

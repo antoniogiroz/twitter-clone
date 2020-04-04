@@ -20,8 +20,13 @@ class FollowersTableSeeder extends Seeder
         $follower->save();
 
         $follower = new Follower();
+        $follower->user_id = 1;
+        $follower->following_id = 3;
+        $follower->save();
+
+        $follower = new Follower();
         $follower->user_id = 2;
-        $follower->following_id = 2;
+        $follower->following_id = 1;
         $follower->save();
 
         $follower = new Follower();
