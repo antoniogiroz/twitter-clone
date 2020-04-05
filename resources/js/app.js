@@ -1,7 +1,10 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import { ObserveVisibility } from 'vue-observe-visibility';
 import store from './store';
+
+Vue.directive('observe-visibility', ObserveVisibility);
 
 // Auto register vue components
 const files = require.context('./', true, /\.vue$/i);

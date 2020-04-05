@@ -18,9 +18,10 @@ export default {
   },
 
   actions: {
-    async getTweets({commit}) {
-      const { data } = await axios.get('/api/timeline');
+    async getTweets({ commit }, { page }) {
+      const { data } = await axios.get(`/api/timeline?page=${page}`);
       commit('pushTweets', data.data);
+      return data;
     }
   }
 }
