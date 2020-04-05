@@ -1,6 +1,7 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import store from './store';
 
 // Auto register vue components
 const files = require.context('./', true, /\.vue$/i);
@@ -13,4 +14,5 @@ axios.defaults.withCredentials = true;
 
 const app = new Vue({
     el: '#app',
+    store,
 });

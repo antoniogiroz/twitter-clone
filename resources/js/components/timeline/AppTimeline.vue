@@ -9,11 +9,13 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
-  data() {
-    return {
-      tweets: []
-    };
+  computed: {
+    ...mapGetters({
+      tweets: 'timeline/tweets'
+    })
   },
 
   mounted() {
@@ -21,10 +23,9 @@ export default {
   },
 
   methods: {
-    async getTweets() {
-      const { data } = await axios.get("/api/timeline");
-      this.tweets = data.data;
-    }
+    ...mapActions({
+      getTweets: 'timeline/getTweets'
+    })
   }
 };
 </script>
