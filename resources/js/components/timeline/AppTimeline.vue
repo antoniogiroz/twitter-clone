@@ -1,28 +1,34 @@
 <template>
   <div>
+    <div class="p-4 border-b-8 border-gray-800">
+      <app-tweet-compose></app-tweet-compose>
+    </div>
     <app-tweet
       v-for="tweet in tweets"
       :key="tweet.id"
       :tweet="tweet"
     ></app-tweet>
-    <div v-if="tweets.length" v-observe-visibility="handleScrolledToBottomOfTimeline"></div>
+    <div
+      v-if="tweets.length"
+      v-observe-visibility="handleScrolledToBottomOfTimeline"
+    ></div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
       page: 1,
       lastPage: 1
-    }
+    };
   },
 
   computed: {
     ...mapGetters({
-      tweets: 'timeline/tweets'
+      tweets: "timeline/tweets"
     })
   },
 
@@ -32,7 +38,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getTweets: 'timeline/getTweets'
+      getTweets: "timeline/getTweets"
     }),
 
     handleScrolledToBottomOfTimeline(isVisible) {

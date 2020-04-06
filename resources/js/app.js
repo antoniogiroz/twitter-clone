@@ -6,6 +6,8 @@ import store from './store';
 
 Vue.directive('observe-visibility', ObserveVisibility);
 
+Vue.prototype.$user = User;
+
 // Auto register vue components
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));

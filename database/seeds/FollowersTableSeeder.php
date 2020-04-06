@@ -19,6 +19,12 @@ class FollowersTableSeeder extends Seeder
         $follower->following_id = 2;
         $follower->save();
 
+        // TODO: Temporal to view my own tweets
+        $follower = new Follower();
+        $follower->user_id = 1;
+        $follower->following_id = 1;
+        $follower->save();
+
         $follower = new Follower();
         $follower->user_id = 1;
         $follower->following_id = 3;
