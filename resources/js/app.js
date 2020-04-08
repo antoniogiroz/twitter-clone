@@ -1,6 +1,8 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import store from './store';
 
@@ -16,6 +18,17 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 window.axios = axios;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.withCredentials = true;
+
+// Web sockets configuration
+window.Pusher = Pusher;
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: 'local',
+  encrypted: false,
+  disableStats: true,
+  wsHost: window.location.hostname,
+  wsPort: 6001
+});
 
 const app = new Vue({
     el: '#app',
