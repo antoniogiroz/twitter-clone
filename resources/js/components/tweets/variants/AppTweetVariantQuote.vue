@@ -5,6 +5,11 @@
     <div class="flex-grow">
       <app-tweet-username :user="tweet.user"></app-tweet-username>
       <p class="text-gray-300 whitespace-pre-wrap">{{ tweet.body }}</p>
+
+      <app-tweet
+        class="mt-4 border border-gray-700 rounded-lg"
+        :tweet="tweet.original_tweet"
+      ></app-tweet>
     </div>
   </div>
 </template>
