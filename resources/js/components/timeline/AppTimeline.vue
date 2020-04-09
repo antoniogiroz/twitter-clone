@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   data() {
@@ -34,9 +34,17 @@ export default {
 
   mounted() {
     this.loadTweets();
+
+    Echo.private(`timeline.${this.$user.id}`).listen(".TweetCreated", tweet => {
+      this.pushTweets([tweet]);
+    });
   },
 
   methods: {
+    ...mapMutations({
+      pushTweets: "timeline/pushTweets"
+    }),
+
     ...mapActions({
       getTweets: "timeline/getTweets"
     }),

@@ -2043,9 +2043,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     tweets: "timeline/tweets"
   })),
   mounted: function mounted() {
+    var _this = this;
+
     this.loadTweets();
+    Echo["private"]("timeline.".concat(this.$user.id)).listen(".TweetCreated", function (tweet) {
+      _this.pushTweets([tweet]);
+    });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+    pushTweets: "timeline/pushTweets"
+  }), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     getTweets: "timeline/getTweets"
   }), {
     handleScrolledToBottomOfTimeline: function handleScrolledToBottomOfTimeline(isVisible) {
@@ -2061,24 +2068,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.loadTweets();
     },
     loadTweets: function loadTweets() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$_this$getTweet, meta;
+        var _yield$_this2$getTwee, meta;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.getTweets({
-                  page: _this.page
+                return _this2.getTweets({
+                  page: _this2.page
                 });
 
               case 2:
-                _yield$_this$getTweet = _context.sent;
-                meta = _yield$_this$getTweet.meta;
-                _this.lastPage = meta.last_page;
+                _yield$_this2$getTwee = _context.sent;
+                meta = _yield$_this2$getTwee.meta;
+                _this2.lastPage = meta.last_page;
 
               case 5:
               case "end":
@@ -27014,7 +27021,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   getters: {
     tweets: function tweets(state) {
-      return state.tweets;
+      return state.tweets.sort(function (a, b) {
+        return b.created_at - a.created_at;
+      });
     }
   },
   mutations: {
