@@ -18,6 +18,7 @@ class TimelineController extends Controller
             ->user()
             ->tweetsFromFollowing()
             ->latest()
+            ->with(['user'])
             ->paginate();
 
         return TweetResource::collection($tweets);
