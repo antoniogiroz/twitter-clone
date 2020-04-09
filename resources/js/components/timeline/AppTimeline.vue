@@ -22,31 +22,34 @@ export default {
   data() {
     return {
       page: 1,
-      lastPage: 1
+      lastPage: 1,
     };
   },
 
   computed: {
     ...mapGetters({
-      tweets: "timeline/tweets"
-    })
+      tweets: "timeline/tweets",
+    }),
   },
 
   mounted() {
     this.loadTweets();
 
-    Echo.private(`timeline.${this.$user.id}`).listen(".TweetCreated", tweet => {
-      this.pushTweets([tweet]);
-    });
+    Echo.private(`timeline.${this.$user.id}`).listen(
+      ".TweetCreated",
+      (tweet) => {
+        this.pushTweets([tweet]);
+      }
+    );
   },
 
   methods: {
     ...mapMutations({
-      pushTweets: "timeline/pushTweets"
+      pushTweets: "timeline/pushTweets",
     }),
 
     ...mapActions({
-      getTweets: "timeline/getTweets"
+      getTweets: "timeline/getTweets",
     }),
 
     handleScrolledToBottomOfTimeline(isVisible) {
@@ -66,7 +69,7 @@ export default {
     async loadTweets() {
       const { meta } = await this.getTweets({ page: this.page });
       this.lastPage = meta.last_page;
-    }
-  }
+    },
+  },
 };
 </script>

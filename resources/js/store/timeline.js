@@ -14,7 +14,7 @@ export default {
   mutations: {
     pushTweets(state, tweets) {
       const tweetIds = state.tweets.map((tweet) => tweet.id);
-      const newTweets = tweets.filter((tweet) => tweetIds.includes(tweet.id));
+      const newTweets = tweets.filter((tweet) => !tweetIds.includes(tweet.id));
       state.tweets.push(...newTweets);
     },
   },
