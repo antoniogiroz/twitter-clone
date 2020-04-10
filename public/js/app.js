@@ -1969,7 +1969,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.post("/api/tweet", _this.form);
+                return axios.post("/api/tweets", _this.form);
 
               case 2:
                 _this.form.body = "";
@@ -2266,6 +2266,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2279,6 +2280,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), {
     liked: function liked() {
       return this.likes.includes(this.tweet.id);
+    }
+  }),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    likeTweet: 'likes/likeTweet',
+    unlikeTweet: 'likes/unlikeTweet'
+  }), {
+    toggleLike: function toggleLike() {
+      this.liked ? this.unlikeTweet(this.tweet) : this.likeTweet(this.tweet);
     }
   })
 });
@@ -13457,7 +13466,13 @@ var render = function() {
     {
       staticClass: "flex items-center text-base text-gray-600",
       class: { "text-pink-600": _vm.liked },
-      attrs: { href: "#" }
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          return _vm.toggleLike($event)
+        }
+      }
     },
     [
       _c(
@@ -28261,6 +28276,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _state$likes;
 
       (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(likes));
+    }
+  },
+  actions: {
+    likeTweet: function likeTweet(context, tweet) {
+      axios.post("/api/tweets/".concat(tweet.id, "/likes"));
+    },
+    unlikeTweet: function unlikeTweet(context, tweet) {
+      axios["delete"]("/api/tweets/".concat(tweet.id, "/likes"));
     }
   }
 });

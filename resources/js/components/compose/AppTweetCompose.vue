@@ -33,7 +33,7 @@ export default {
 
   methods: {
     async submit() {
-      await axios.post("/api/tweet", this.form);
+      await axios.post("/api/tweets", this.form);
       this.form.body = "";
     },
   },

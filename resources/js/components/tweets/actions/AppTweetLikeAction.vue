@@ -3,6 +3,7 @@
     href="#"
     class="flex items-center text-base text-gray-600"
     :class="{ 'text-pink-600': liked }"
+    @click.prevent="toggleLike"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   props: {
@@ -37,6 +38,17 @@ export default {
 
     liked() {
       return this.likes.includes(this.tweet.id);
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      likeTweet: 'likes/likeTweet',
+      unlikeTweet: 'likes/unlikeTweet',
+    }),
+
+    toggleLike() {
+      this.liked ? this.unlikeTweet(this.tweet) : this.likeTweet(this.tweet);
     }
   }
 };
