@@ -5,6 +5,8 @@
     <div class="flex-grow">
       <app-tweet-username :user="tweet.user"></app-tweet-username>
       <p class="text-gray-300 whitespace-pre-wrap">{{ tweet.body }}</p>
+
+      <app-tweet-action-group></app-tweet-action-group>
     </div>
   </div>
 </template>

@@ -10,6 +10,8 @@
         class="mt-4 border border-gray-700 rounded-lg"
         :tweet="tweet.original_tweet"
       ></app-tweet>
+
+      <app-tweet-action-group></app-tweet-action-group>
     </div>
   </div>
 </template>
