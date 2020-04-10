@@ -11,7 +11,7 @@
         :tweet="tweet.original_tweet"
       ></app-tweet>
 
-      <app-tweet-action-group></app-tweet-action-group>
+      <app-tweet-action-group :tweet="tweet"></app-tweet-action-group>
     </div>
   </div>
 </template>

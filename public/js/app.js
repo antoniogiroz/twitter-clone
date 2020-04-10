@@ -2218,7 +2218,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    tweet: {
+      type: Object,
+      required: true
+    }
+  }
+});
 
 /***/ }),
 
@@ -2248,7 +2255,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    tweet: {
+      type: Object,
+      required: true
+    }
+  }
+});
 
 /***/ }),
 
@@ -2278,7 +2292,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    tweet: {
+      type: Object,
+      required: true
+    }
+  }
+});
 
 /***/ }),
 
@@ -2308,7 +2329,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    tweet: {
+      type: Object,
+      required: true
+    }
+  }
+});
 
 /***/ }),
 
@@ -13368,11 +13396,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("ul", { staticClass: "flex justify-between mt-4" }, [
-    _c("li", [_c("app-tweet-reply-action")], 1),
+    _c(
+      "li",
+      [_c("app-tweet-reply-action", { attrs: { tweet: _vm.tweet } })],
+      1
+    ),
     _vm._v(" "),
-    _c("li", [_c("app-tweet-retweet-action")], 1),
+    _c(
+      "li",
+      [_c("app-tweet-retweet-action", { attrs: { tweet: _vm.tweet } })],
+      1
+    ),
     _vm._v(" "),
-    _c("li", [_c("app-tweet-like-action")], 1)
+    _c("li", [_c("app-tweet-like-action", { attrs: { tweet: _vm.tweet } })], 1)
   ])
 }
 var staticRenderFns = []
@@ -13399,12 +13435,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "a",
-    { staticClass: "flex items-center text-base", attrs: { href: "#" } },
+    {
+      staticClass: "flex items-center text-base text-gray-600",
+      attrs: { href: "#" }
+    },
     [
       _c(
         "svg",
         {
-          staticClass: "w-5 mr-2 text-gray-600 fill-current",
+          staticClass: "w-5 mr-2 fill-current",
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
             viewBox: "0 0 24 24",
@@ -13422,7 +13461,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("span", [_vm._v("0")])
+      _c("span", [_vm._v(_vm._s(_vm.tweet.likes_count))])
     ]
   )
 }
@@ -13450,12 +13489,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "a",
-    { staticClass: "flex items-center text-base", attrs: { href: "#" } },
+    {
+      staticClass: "flex items-center text-base text-gray-600",
+      attrs: { href: "#" }
+    },
     [
       _c(
         "svg",
         {
-          staticClass: "w-5 mr-2 text-gray-600 fill-current",
+          staticClass: "w-5 mr-2 fill-current",
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
             viewBox: "0 0 24 24",
@@ -13501,12 +13543,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "a",
-    { staticClass: "flex items-center text-base", attrs: { href: "#" } },
+    {
+      staticClass: "flex items-center text-base text-gray-600",
+      attrs: { href: "#" }
+    },
     [
       _c(
         "svg",
         {
-          staticClass: "w-5 mr-2 text-gray-600 fill-current",
+          staticClass: "w-5 mr-2 fill-current",
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
             viewBox: "0 0 24 24",
@@ -13571,7 +13616,7 @@ var render = function() {
           attrs: { tweet: _vm.tweet.original_tweet }
         }),
         _vm._v(" "),
-        _c("app-tweet-action-group")
+        _c("app-tweet-action-group", { attrs: { tweet: _vm.tweet } })
       ],
       1
     )
@@ -13680,7 +13725,7 @@ var render = function() {
           _vm._v(_vm._s(_vm.tweet.body))
         ]),
         _vm._v(" "),
-        _c("app-tweet-action-group")
+        _c("app-tweet-action-group", { attrs: { tweet: _vm.tweet } })
       ],
       1
     )
