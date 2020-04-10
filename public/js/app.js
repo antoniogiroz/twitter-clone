@@ -27355,31 +27355,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.directive('observe-visibility', vue_observe_visibility__WEBPACK_IMPORTED_MODULE_4__["ObserveVisibility"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.directive("observe-visibility", vue_observe_visibility__WEBPACK_IMPORTED_MODULE_4__["ObserveVisibility"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$user = User; // Auto register vue components
 
 var files = __webpack_require__("./resources/js sync recursive \\.vue$/");
 
 files.keys().map(function (key) {
-  return vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(key.split('/').pop().split('.')[0], files(key)["default"]);
+  return vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(key.split("/").pop().split(".")[0], files(key)["default"]);
 }); // Axios configuration
 
 window.axios = axios__WEBPACK_IMPORTED_MODULE_1___default.a;
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.withCredentials = true; // Web sockets configuration
 
 window.Pusher = pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a;
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_2__["default"]({
-  broadcaster: 'pusher',
-  key: 'local',
+  broadcaster: "pusher",
+  key: "local",
   encrypted: false,
   disableStats: true,
   wsHost: window.location.hostname,
   wsPort: 6001
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app',
+  el: "#app",
   store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
+});
+window.Echo.channel("tweets").listen(".TweetLikeUpdated", function (tweet) {
+  if (tweet.user_id === User.id) {
+    _store__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch("likes/syncLike", tweet.id);
+  }
+
+  _store__WEBPACK_IMPORTED_MODULE_5__["default"].commit("timeline/updateLikes", tweet);
 });
 
 /***/ }),
@@ -28272,10 +28279,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   mutations: {
-    pushLikes: function pushLikes(state, likes) {
+    addLikes: function addLikes(state, likes) {
       var _state$likes;
 
       (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(likes));
+    },
+    removeLike: function removeLike(state, tweetId) {
+      state.likes = state.likes.filter(function (id) {
+        return id !== tweetId;
+      });
     }
   },
   actions: {
@@ -28284,6 +28296,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     unlikeTweet: function unlikeTweet(context, tweet) {
       axios["delete"]("/api/tweets/".concat(tweet.id, "/likes"));
+    },
+    syncLike: function syncLike(_ref, tweetId) {
+      var commit = _ref.commit,
+          state = _ref.state;
+
+      if (state.likes.includes(tweetId)) {
+        commit("removeLike", tweetId);
+        return;
+      }
+
+      commit("addLikes", [tweetId]);
     }
   }
 });
@@ -28343,10 +28366,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
 
       (_state$tweets = state.tweets).push.apply(_state$tweets, _toConsumableArray(newTweets));
+    },
+    updateLikes: function updateLikes(state, _ref) {
+      var id = _ref.id,
+          count = _ref.count;
+      state.tweets = state.tweets.map(function (tweet) {
+        if (tweet.id === id) {
+          tweet.likes_count = count;
+        }
+
+        if (tweet.original_tweet && tweet.original_tweet.id === id) {
+          tweet.original_tweet.likes_count = count;
+        }
+
+        return tweet;
+      });
     }
   },
   actions: {
-    getTweets: function getTweets(_ref, _ref2) {
+    getTweets: function getTweets(_ref2, _ref3) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var commit, page, _yield$axios$get, data;
 
@@ -28354,8 +28392,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit;
-                page = _ref2.page;
+                commit = _ref2.commit;
+                page = _ref3.page;
                 _context.next = 4;
                 return axios.get("/api/timeline?page=".concat(page));
 
@@ -28363,7 +28401,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _yield$axios$get = _context.sent;
                 data = _yield$axios$get.data;
                 commit("pushTweets", data.data);
-                commit("likes/pushLikes", data.meta.likes, {
+                commit("likes/addLikes", data.meta.likes, {
                   root: true
                 });
                 return _context.abrupt("return", data);

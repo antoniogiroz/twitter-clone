@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\Tweets\TweetLikeUpdated;
 use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model
@@ -28,8 +29,6 @@ class Tweet extends Model
         $this->likes()->firstOrCreate([
             'user_id' => auth()->id()
         ]);
-
-        // ModelLiked::dispatch($this);
     }
 
     public function unlike()
@@ -37,8 +36,6 @@ class Tweet extends Model
         $this->likes()->where([
             'user_id' => auth()->id()
         ])->delete();
-
-        // ModelUnlike::dispatch($this);
     }
 
     public function isLiked()
