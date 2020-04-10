@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Timeline;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TweetResource;
+use App\Http\Resources\TweetCollection;
 
 class TimelineController extends Controller
 {
@@ -24,6 +24,6 @@ class TimelineController extends Controller
             ])
             ->paginate();
 
-        return TweetResource::collection($tweets);
+        return TweetCollection::make($tweets);
     }
 }

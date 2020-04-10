@@ -23,6 +23,7 @@ export default {
     async getTweets({ commit }, { page }) {
       const { data } = await axios.get(`/api/timeline?page=${page}`);
       commit("pushTweets", data.data);
+      commit("likes/pushLikes", data.meta.likes, { root: true });
       return data;
     },
   },

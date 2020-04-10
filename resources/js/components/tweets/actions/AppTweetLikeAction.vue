@@ -1,5 +1,9 @@
 <template>
-  <a href="#" class="flex items-center text-base text-gray-600">
+  <a
+    href="#"
+    class="flex items-center text-base text-gray-600"
+    :class="{ 'text-pink-600': liked }"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -16,6 +20,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     tweet: {
@@ -23,5 +29,15 @@ export default {
       required: true,
     },
   },
+
+  computed: {
+    ...mapGetters({
+      likes: 'likes/likes'
+    }),
+
+    liked() {
+      return this.likes.includes(this.tweet.id);
+    }
+  }
 };
 </script>

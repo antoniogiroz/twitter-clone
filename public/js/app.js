@@ -2238,6 +2238,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2255,13 +2262,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     tweet: {
       type: Object,
       required: true
     }
-  }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    likes: 'likes/likes'
+  }), {
+    liked: function liked() {
+      return this.likes.includes(this.tweet.id);
+    }
+  })
 });
 
 /***/ }),
@@ -13437,6 +13456,7 @@ var render = function() {
     "a",
     {
       staticClass: "flex items-center text-base text-gray-600",
+      class: { "text-pink-600": _vm.liked },
       attrs: { href: "#" }
     },
     [
@@ -28190,15 +28210,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _timeline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./timeline */ "./resources/js/store/timeline.js");
+/* harmony import */ var _likes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./likes */ "./resources/js/store/likes.js");
+
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
-    timeline: _timeline__WEBPACK_IMPORTED_MODULE_2__["default"]
+    timeline: _timeline__WEBPACK_IMPORTED_MODULE_2__["default"],
+    likes: _likes__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/likes.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/likes.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    likes: []
+  },
+  getters: {
+    likes: function likes(state) {
+      return state.likes;
+    }
+  },
+  mutations: {
+    pushLikes: function pushLikes(state, likes) {
+      var _state$likes;
+
+      (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(likes));
+    }
+  }
+});
 
 /***/ }),
 
@@ -28275,9 +28340,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _yield$axios$get = _context.sent;
                 data = _yield$axios$get.data;
                 commit("pushTweets", data.data);
+                commit("likes/pushLikes", data.meta.likes, {
+                  root: true
+                });
                 return _context.abrupt("return", data);
 
-              case 8:
+              case 9:
               case "end":
                 return _context.stop();
             }
